@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", ()=> populateScoreboard());
+
+    function populateScoreboard () {
+      axios.get('http://localhost:1337/games?title=Pornhub-Wars').then( response =>{
+        const data = response.data;
+        const scores = data[0].scores;
+          for(let _score of scores){
+            const {player, score} = _score;
+            const scoreCard = `
+              <div class="score-card">
+                <p>Player: ${player} </p>
+                <p>Score: ${score}</p>
+              </div>
+            `
+            document.getElementById('container').innerHTML += scoreCard;
+          }
+      });
+    }
+  </script>
+  <style>
+    html {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    #container {
+      max-width: 600px;
+      margin: auto;
+      padding: 42px 24px;
+    }
+    .score-card{
+      border: 1px solid #eee;
+      border-radius: 3px;
+      padding: 25px;
+      margin: 25px;
+    }
+  </style>
+
+  <title>Scoreboard</title>
+</head>
+<body>
+  <div id="container"> 
+    <h1>Scoreboard for Pornhub Wars</h1>
+  </div>
+</body>
+</html>
